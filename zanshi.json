@@ -1,0 +1,109 @@
+{
+  "SettingsVersion": 2.0,
+  "SimMode": "Multirotor",
+  "CameraDefaults": {
+    "CaptureSettings": [
+      {
+        "ImageType": 0,
+        "Width": 1920,
+        "Height": 1080,
+        "FOV_Degrees": 90,
+        "MotionBlurAmount": 0,
+        "AutoExposureSpeed": 100
+      }
+    ]
+  },
+  "Vehicles": {
+    "CamRig1": {
+      "VehicleType": "SimpleFlight",
+      "AutoCreate": true,
+      "X": 0,
+      "Y": 0,
+      "Z": 0,
+
+      "Cameras": {
+        "FixedCamera1": {
+          "Pitch": 10.0,
+          "Roll": 0.0,
+          "Yaw": -180.0,
+          "X": 315,
+          "Y": -102,
+          "Z": -85.0,
+          "External": true,
+          "ExternalLocal": true,
+          "CaptureSettings": [
+            {
+              "FOV_Degrees": 90,
+              "Width": 4096,
+              "Height": 2048,
+              "ImageType": 0,
+              "Framerate": 30
+            }
+          ]
+        },
+        "FixedCamera2": {
+          "Pitch": 0.0,
+          "Roll": 0.0,
+          "Yaw": -90.0,
+          "X": 135,
+          "Y": 148,
+          "Z": -78.0,
+          "External": true,
+          "ExternalLocal": true,
+          "CaptureSettings": [
+            {
+              "FOV_Degrees": 90,
+              "Width": 4096,
+              "Height": 2048,
+              "ImageType": 0,
+              "Framerate": 30
+            }
+          ]
+        },
+        "FixedCamera3": {
+          "Pitch": -10.0,
+          "Roll": 0.0,
+          "Yaw": -80.0,
+          "X":178,
+          "Y": 23,
+          "Z": -95.0,
+          "External": true,
+          "ExternalLocal": true,
+          "CaptureSettings": [
+            {
+              "FOV_Degrees": 90,
+              "Width": 4096,
+              "Height": 2048,
+              "ImageType": 0,
+              "Framerate": 30
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  "SubWindows": [
+     {
+      "WindowID": 0,
+      "ImageType": 0,
+      "CameraName": "FixedCamera1",
+      "VehicleName": "CamRig1",
+      "Visible": true
+    },
+    {
+      "WindowID": 1,
+      "ImageType": 0,
+      "CameraName": "FixedCamera2",
+      "VehicleName": "CamRig1",
+      "Visible": true
+    },
+    {
+      "WindowID": 2,
+      "ImageType": 0,
+      "CameraName": "FixedCamera3",
+      "VehicleName": "CamRig1",
+      "Visible": true
+    }
+  ]
+}
