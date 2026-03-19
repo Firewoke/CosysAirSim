@@ -108,7 +108,7 @@ STATION_ATTACK_CENTER_OFFSET = {
 能量容量： 续航能力 任务持续时间
 移动能力： 机动性 速度 加速能力
 任务载荷能力： 打击载荷 专用设备
-
+camera代表具有相机载荷 recon代表具有侦察搜索能力 relay表示中继通信转发能力 strike表示打击能力
 """
 UAV_CAPABILITIES = {
     "Drone1": {
@@ -212,7 +212,7 @@ TASK_LIBRARY = {
             "RESULT_REPORT"
         ],
 
-        # 先做最小需求约束，后面再逐步扩展
+        # 最小需求约束，
         "min_perception": 0.70,
         "min_compute": 0.20,
         "min_communication": 0.40,

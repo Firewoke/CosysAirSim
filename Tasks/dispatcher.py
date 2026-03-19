@@ -48,7 +48,6 @@ class TaskDispatcher:
 
     def dispatch_task(self, task: TaskRequest, world):
         """
-        第一版只做：
         - 按 source_station_tag 在本地基站内筛选
         - 返回候选排名
         - 选前 required_uav_count 架

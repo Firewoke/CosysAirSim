@@ -6,6 +6,7 @@ import numpy as np
 import os
 import cv2
 import threading
+from deployment_planner import DeploymentPlanner
 from UAVS.uav_state import UAVRuntimeState
 from Tasks import TaskType, TaskDispatcher, list_task_type_specs
 from config import (
@@ -64,48 +65,6 @@ def clamp_2d(vx: float, vy: float, max_speed: float):
         return vx, vy
     scale = max_speed / speed
     return vx * scale, vy * scale
-
-
-
-def build_ground_deploy_slots(world: WorldModel):
-    """
-    基于基站坐标，计算地面初始部署点
-
-    offset 支持两种格式：
-    1) (dx, dy)       -> z 直接使用基站自身 z
-    2) (dx, dy, dz)   -> z = 基站 z + dz
-    应该也可以获取其碰撞盒放上去
-    """
-    slots = {}
-    # 找到相应的基站 
-    for station_tag, station in world.base_stations.items():
-        if station.position_world is None:
-            raise RuntimeError(f"{station_tag} position_world is None")
-        # 获取基站的坐标位置
-        sx, sy, sz = station.position_world
-        if station_tag not in GROUND_DEPLOY_OFFSETS:
-            raise RuntimeError(f"{station_tag} 未配置 GROUND_DEPLOY_OFFSETS")
-
-        offsets = GROUND_DEPLOY_OFFSETS[station_tag]
-        uav_list = station.assigned_uavs
-
-        if len(offsets) != len(uav_list):
-            raise RuntimeError(f"{station_tag} ground offsets 数量与无人机数量不一致")
-        # 针对每个无人机的部署去做偏移，计算出相应的位置信息
-        for uav_name, offset in zip(uav_list, offsets):
-            if len(offset) == 2:
-                dx, dy = offset
-                dz = 0.0
-            elif len(offset) == 3:
-                dx, dy, dz = offset
-            else:
-                raise RuntimeError(
-                    f"{station_tag} 的 offset 格式错误: {offset}，"
-                    f"应为 (dx, dy) 或 (dx, dy, dz)"
-                )
-            slots[uav_name] = (sx + dx, sy + dy, sz + dz)
-    return slots
-
 
 # 放置无人机在规定的基站
 def spawn_uavs_at_deploy_slots(client, world: WorldModel):
@@ -1049,7 +1008,8 @@ def main():
 
     # 4. 计算地面部署槽位
     print("Planning ground deploy slots...")
-    ground_slots = build_ground_deploy_slots(world)
+    planner = DeploymentPlanner()
+    ground_slots = planner.build_slots(world)
     for uav_name, slot_world in ground_slots.items():
         world.set_uav_deploy_slot(uav_name, slot_world)
         print(f"[OK] {uav_name} deploy_slot_world = {slot_world}")
